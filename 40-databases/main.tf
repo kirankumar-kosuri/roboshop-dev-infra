@@ -7,10 +7,9 @@ resource "aws_instance" "mongodb" {
     tags = merge(
         local.common_tags,
         {
-            Name = "${local.common_name_suffix}-bastion"
+            Name = "${local.common_name_suffix}-mongodb"
         }
     )
-
 }
 
 resource "terraform_data" "mongodb" {
