@@ -65,7 +65,7 @@ resource "terraform_data" "redis" {
     host     = aws_instance.redis.private_ip
   }
 
-  # terraform copies this file to mongodb server
+  # terraform copies this file to redis server
   provisioner "file" {
     source = "bootstrap.sh"
     destination = "/tmp/bootstrap.sh"
@@ -106,7 +106,7 @@ resource "terraform_data" "rabbitmq" {
     host     = aws_instance.rabbitmq.private_ip
   }
 
-  # terraform copies this file to mongodb server
+  # terraform copies this file to rabbitmq server
   provisioner "file" {
     source = "bootstrap.sh"
     destination = "/tmp/bootstrap.sh"
@@ -137,7 +137,7 @@ resource "aws_instance" "mysql" {
 
 resource "aws_iam_instance_profile" "mysql" {
   name = "mysql"
-  role = "EC2SSMParameterRead"
+  role = "ec2ssmparameterstor"
 }
 
 resource "terraform_data" "mysql" {
@@ -152,7 +152,7 @@ resource "terraform_data" "mysql" {
     host     = aws_instance.mysql.private_ip
   }
 
-  # terraform copies this file to mongodb server
+  # terraform copies this file to mysql server
   provisioner "file" {
     source = "bootstrap.sh"
     destination = "/tmp/bootstrap.sh"
@@ -161,7 +161,7 @@ resource "terraform_data" "mysql" {
   provisioner "remote-exec" {
     inline = [
         "chmod +x /tmp/bootstrap.sh",
-        "sudo sh /tmp/bootstrap.sh mysql "
+        "sudo sh /tmp/bootstrap.sh mysql dev"
     ]
   }
 }
