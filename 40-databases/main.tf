@@ -1,6 +1,6 @@
 resource "aws_instance" "mongodb" {
     ami = local.ami_id
-    instance_type = "t2.micro"
+    instance_type = "t3.micro"
     vpc_security_group_ids = [local.mongodb_sg_id]
     subnet_id = local.database_subnet_id
     
@@ -41,7 +41,7 @@ resource "terraform_data" "mongodb" {
 
 resource "aws_instance" "redis" {
     ami = local.ami_id
-    instance_type = "t2.micro"
+    instance_type = "t3.micro"
     vpc_security_group_ids = [local.redis_sg_id]
     subnet_id = local.database_subnet_id
     
@@ -65,7 +65,7 @@ resource "terraform_data" "redis" {
     host     = aws_instance.redis.private_ip
   }
 
-  # terraform copies this file to redis server
+  # terraform copies this file to mongodb server
   provisioner "file" {
     source = "bootstrap.sh"
     destination = "/tmp/bootstrap.sh"
@@ -82,7 +82,7 @@ resource "terraform_data" "redis" {
 
 resource "aws_instance" "rabbitmq" {
     ami = local.ami_id
-    instance_type = "t2.micro"
+    instance_type = "t3.micro"
     vpc_security_group_ids = [local.rabbitmq_sg_id]
     subnet_id = local.database_subnet_id
     
@@ -106,7 +106,7 @@ resource "terraform_data" "rabbitmq" {
     host     = aws_instance.rabbitmq.private_ip
   }
 
-  # terraform copies this file to rabbitmq server
+  # terraform copies this file to mongodb server
   provisioner "file" {
     source = "bootstrap.sh"
     destination = "/tmp/bootstrap.sh"
@@ -122,7 +122,7 @@ resource "terraform_data" "rabbitmq" {
 
 resource "aws_instance" "mysql" {
     ami = local.ami_id
-    instance_type = "t2.micro"
+    instance_type = "t3.micro"
     vpc_security_group_ids = [local.mysql_sg_id]
     subnet_id = local.database_subnet_id
     iam_instance_profile = aws_iam_instance_profile.mysql.name
@@ -137,7 +137,7 @@ resource "aws_instance" "mysql" {
 
 resource "aws_iam_instance_profile" "mysql" {
   name = "mysql"
-  role = "ec2ssmparameterstor"
+  role = "ec2ssmparameterstore"
 }
 
 resource "terraform_data" "mysql" {
@@ -152,7 +152,7 @@ resource "terraform_data" "mysql" {
     host     = aws_instance.mysql.private_ip
   }
 
-  # terraform copies this file to mysql server
+  # terraform copies this file to mongodb server
   provisioner "file" {
     source = "bootstrap.sh"
     destination = "/tmp/bootstrap.sh"
