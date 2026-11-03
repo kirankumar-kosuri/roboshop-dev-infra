@@ -11,9 +11,6 @@ resource "aws_instance" "mongodb" {
         }
     )
 
-    provisioner "remote-exec" {
-      
-    }
 }
 
 resource "terraform_data" "mongodb" {
