@@ -18,25 +18,24 @@ resource "terraform_data" "mongodb" {
   ]
   
   connection {
-    type     = "ssh"
-    user     = "ec2-user"
-    password = "DevOps321"
-    host     = aws_instance.mongodb.private_ip
-  }
+  type     = "ssh"
+  user     = "ec2-user"
+  password = "DevOps321"
+  host     = aws_instance.mongodb.private_ip
+}
 
   # terraform copies this file to mongodb server
   provisioner "file" {
-    source = "bootstrap.sh"
-    destination = "/tmp/bootstrap.sh"
-  }
+  source      = "bootstrap.sh"
+  destination = "/tmp/bootstrap.sh"
+}
 
-  provisioner "remote-exec" {
-    inline = [
-        "chmod +x /tmp/bootstrap.sh",
-        # "sudo sh /tmp/bootstrap.sh"
-        "sudo sh /tmp/bootstrap.sh mongodb"
-    ]
-  }
+provisioner "remote-exec" {
+  inline = [
+    "chmod +x /tmp/bootstrap.sh",
+    "sudo bash -x /tmp/bootstrap.sh mongodb"
+  ]
+}
 }
 
 resource "aws_instance" "redis" {
