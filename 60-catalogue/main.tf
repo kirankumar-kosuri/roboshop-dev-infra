@@ -1,3 +1,4 @@
+
 # Create EC2 instance
 resource "aws_instance" "catalogue" {
     ami = local.ami_id
@@ -26,30 +27,17 @@ resource "terraform_data" "catalogue" {
     host     = aws_instance.catalogue.private_ip
   }
 
-}
-
-resource "terraform_data" "catalogue" {
-  triggers_replace = [
-    aws_instance.catalogue.id
-  ]
-  
-  connection {
-  type     = "ssh"
-  user     = "ec2-user"
-  password = "DevOps321"
-  host     = aws_instance.catalogue.private_ip
-}
-
   # terraform copies this file to catalogue server
   provisioner "file" {
-  source      = "catalogue.sh"
-  destination = "/tmp/catalogue.sh"
-}
+    source = "catalogue.sh"
+    destination = "/tmp/catalogue.sh"
+  }
 
-provisioner "remote-exec" {
-  inline = [
-    "chmod +x /tmp/catalogue.sh",
-    "sudo bash -x /tmp/catalogue.sh catalogue ${var.environment}"
-  ]
-}
+  provisioner "remote-exec" {
+    inline = [
+        "chmod +x /tmp/catalogue.sh",
+        # "sudo sh /tmp/catalogue.sh"
+        "sudo sh /tmp/catalogue.sh catalogue ${var.environment}"
+    ]
+  }
 }
