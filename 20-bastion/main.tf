@@ -3,6 +3,7 @@ resource "aws_instance" "terraform" {
     instance_type = "t3.micro"
     vpc_security_group_ids = [local.bastion_sg_id]
     subnet_id = local.public_subnet_ids
+    iam_instance_profile = aws_iam_instance_profile.bastion.name
 
     tags = merge(
         local.common_tags,
@@ -10,4 +11,10 @@ resource "aws_instance" "terraform" {
             Name = "${var.project_name}-${var.environment}-bastion"
         }
     )
+}
+
+
+resource "aws_iam_instance_profile" "bastion" {
+  name = "bastion"
+  role = "Bastion-Terraform-Admin"
 }
