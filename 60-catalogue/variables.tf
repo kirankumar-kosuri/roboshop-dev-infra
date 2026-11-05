@@ -6,6 +6,6 @@ variable "environment" {
   default = "dev"
 }
 
-variable "domian_name" {
+variable "domain_name" {
   default = "engg.site"
 }
