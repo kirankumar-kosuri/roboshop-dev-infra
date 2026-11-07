@@ -25,7 +25,9 @@ variable "sg_names" {
     "frontend_alb",
 
     # Backend Load Balancer
-    "backend_alb"
+    "backend_alb",
 
+   # Open-Vpn
+    "open-vpn"
   ]
 }
