@@ -8,11 +8,11 @@ resource "aws_lb" "backend_alb" {
   enable_deletion_protection = false # prevent accidential delection from UI or anywhere
 
   tags = merge(
-        local.common_tags,
-        {
-            Name = "${var.project_name}-${var.environment}-backend_alb"
-        }
-    )
+    local.common_tags,
+    {
+      Name = "${var.project_name}-${var.environment}-backend_alb"
+    }
+  )
 }
 
 # Backend Alb is Listeniing on port number 80
@@ -38,7 +38,7 @@ resource "aws_route53_record" "backend_alb" {
   zone_id = var.zone_id
   name    = "*.backend-alb-${var.environment}.${var.domain_name}"
   type    = "A"
-# there are backend alb details,not our domian details
+  # there are backend alb details,not our domian details
   alias {
     name                   = aws_lb.backend_alb.dns_name
     zone_id                = aws_lb.backend_alb.zone_id
