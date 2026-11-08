@@ -289,17 +289,7 @@ resource "aws_security_group_rule" "bastion_laptop" {
   protocol          = "tcp"
   to_port           = 22
 }
-############################################################################################
-# opev vpn accepting connections from public
-resource "aws_security_group_rule" "bastion_public" {
-  type = "ingress"
-  security_group_id = local.open_vpn_sg_id
-  #source_security_group_id   = local.bastion_sg_id
-  cidr_blocks = ["0.0.0.0/0"]
-  from_port         = 1149
-  protocol          = "tcp"
-  to_port           = 1149
-}
+
 
 
 
